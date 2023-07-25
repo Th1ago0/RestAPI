@@ -1,14 +1,39 @@
 from rest_framework import serializers
+from .validators import *
 from .models import (
     Student,
     Course,
     Enrollment
 )
 
+
 class StudentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Student
-        fields = ['id', 'name', 'rg', 'cpf', 'date_of_birth']
+        fields = ['id', 'name', 'rg', 'cpf', 'date_of_birth', 'phonenumber', 'email']
+        
+    def validate(self, data):
+        if not cpf_validator(data['cpf']):
+            raise serializers.ValidationError(
+                {
+                    'cpf':'O CPF é inválido'
+                })
+        if not name_validator(data['name']):
+            raise serializers.ValidationError(
+                {
+                'name':'O nome é inválido'
+                })
+        if not rg_validator(data['rg']):
+            raise serializers.ValidationError(
+                {
+                'rg':'O RG é inválido'
+                })
+        if not phonenumber_validator(data['phonenumber']):
+            raise serializers.ValidationError(
+                {
+                'phonenumber':'O nomero do celular deve seguir esse modelo: 11 91234-5678'
+                })
+        return data
 
 
 class CourseSerializer(serializers.ModelSerializer):

@@ -2,10 +2,11 @@ from django.contrib import admin
 from .models import Student, Course, Enrollment
 
 class Students(admin.ModelAdmin):
-    list_display = ('id', 'name', 'rg', 'cpf', 'date_of_birth')
+    list_display = ('id', 'name', 'rg', 'cpf', 'date_of_birth', 'phonenumber', 'email')
     list_display_link = ('id', 'name')
     search_fields = ('name',)
     list_per_page = 20
+    ordering = ('name',)
 
 
 admin.site.register(Student, Students)

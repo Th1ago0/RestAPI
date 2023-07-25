@@ -2,8 +2,10 @@ from django.db import models
 
 class Student(models.Model):
     name = models.CharField(max_length = 64)
+    phonenumber = models.CharField(max_length = 13)
+    email = models.EmailField(default = 'a@a.com')
     rg = models.CharField(max_length = 9)
-    cpf = models.CharField(max_length = 11)
+    cpf = models.CharField(max_length = 11, unique = True)
     date_of_birth = models.DateField()
     
     def __str__(self):
