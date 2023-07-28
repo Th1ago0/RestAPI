@@ -1,4 +1,6 @@
 from pathlib import Path
+import os
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -18,6 +20,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'corsheaders',
     'django_filters',
     'core',
 ]
@@ -25,11 +28,13 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
 ]
 
 ROOT_URLCONF = 'setup.urls'
@@ -37,7 +42,7 @@ ROOT_URLCONF = 'setup.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -86,11 +91,53 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')
+    ]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
+    
+    'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.QueryParameterVersioning',
+    
+    #'DEFAULT_PERMISSION_CLASSES':[
+    #    'rest_framework.permissions.IsAuthenticated',
+    #    'rest_framework.permissions.DjangoModelPermissions'
+    #    ],
+    
+    #'DEFAULT_AUTHETICATION_CLASSES':[
+    #    'rest_framework.authentication.BasicAuthentication'
+    #    ],
+    'DEFAULT_THROTTLE_CLASSES':[
+        'rest_framework.throttling.AnonRateThrottle',
+        ],
+    'DEFAULT_THROTTLE_RATES':{
+        'anon' : '100/day',
+        }
+    
     #'DEFAULT_RENDERER_CLASSES': ( 'rest_framework.renderers.JSONRenderer', )
 }
+
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:5173'
+    ]
+
+#CACHES = {
+#    'default':{
+#        'BACKEND': 'django_redis.cache.RedisCache',
+#        'LOCATION': 'redis://127.0.0.1:6379/1',
+#        'OPTIONS':{
+#            'CLIENT_CLASS': 'django_redis.client.DefaultClient'
+#        }
+#    }
+#}
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+SESSION_CACHE_ALIAS = 'default'
+
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, 'locale')
+    )

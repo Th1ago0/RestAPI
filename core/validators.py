@@ -1,5 +1,5 @@
-import re
 from validate_docbr import CPF
+import re
 
 def cpf_validator(cpf_n):
     cpf = CPF()

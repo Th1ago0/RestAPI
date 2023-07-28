@@ -3,7 +3,8 @@ from .validators import *
 from .models import (
     Student,
     Course,
-    Enrollment
+    Enrollment,
+    Teacher
 )
 
 
@@ -36,6 +37,29 @@ class StudentSerializer(serializers.ModelSerializer):
         return data
 
 
+class TeacherSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Teacher
+        fields = '__all__'
+    
+    def validate(self, data):
+        if not cpf_validator[dat['cpf']]:
+            raise serializers.ValidationError(
+                {
+                'cpf': 'O CPF é inválido'
+                })
+        if not name_validator(data['name']):
+            raise serializers.ValidationError(
+                {
+                'name': 'O nome é inválido'
+                })
+        if not phonenumber_validator(data['phonenumber']):
+            raise serializers.ValidationError(
+                {
+                'phonenumber': 'O nomero do celular deve seguir esse modelo: 11 91234-5678'
+                })
+
+
 class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
@@ -63,3 +87,9 @@ class ListStudentsEnrolledByCourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Enrollment
         fields = ['student_name']
+
+
+class StudentSerializerV2(serializers.ModelSerializer):
+    class Meta:
+        model = Student
+        fields = ['id', 'name', 'rg', 'cpf', 'date_of_birth', 'phonenumber', 'email', 'city', 'photo']
