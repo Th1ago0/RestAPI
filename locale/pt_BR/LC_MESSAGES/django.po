@@ -18,5 +18,5 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 #: templates/core/home.html:2
-msgid "welcome"
-msgstr ""
+msgid "this field is required"
+msgstr "Esse campo precisa ser preenchido"

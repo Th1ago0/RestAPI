@@ -20,8 +20,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'corsheaders',
     'django_filters',
+    'corsheaders',
+    'drf_yasg',
     'core',
 ]
 
@@ -102,23 +103,32 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 10,
     
     'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.QueryParameterVersioning',
-    
-    #'DEFAULT_PERMISSION_CLASSES':[
-    #    'rest_framework.permissions.IsAuthenticated',
-    #    'rest_framework.permissions.DjangoModelPermissions'
+
+    #'DEFAULT_THROTTLE_CLASSES':[
+    #    'rest_framework.throttling.AnonRateThrottle',
     #    ],
+    #'DEFAULT_THROTTLE_RATES':{
+    #    'anon' : '100/day',
+    #    },
     
-    #'DEFAULT_AUTHETICATION_CLASSES':[
-    #    'rest_framework.authentication.BasicAuthentication'
+    #'DEFAULT_PARSER_CLASSES':[
+    #    'rest_framework.parsers.JSONParser',
+    #    'rest_framework_xml.parsers.XMLParser',
     #    ],
-    'DEFAULT_THROTTLE_CLASSES':[
-        'rest_framework.throttling.AnonRateThrottle',
+    #'DEFAULT_RENDERER_CLASSES': [
+    #    'rest_framework.renderers.JSONRenderer',
+    #    'rest_framework_xml.renderers.XMLRenderer',
+    #   ],
+        
+    'DEFAULT_PERMISSION_CLASSES':[
+        'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.DjangoModelPermissions'
         ],
-    'DEFAULT_THROTTLE_RATES':{
-        'anon' : '100/day',
-        }
     
-    #'DEFAULT_RENDERER_CLASSES': ( 'rest_framework.renderers.JSONRenderer', )
+    
+    'DEFAULT_AUTHETICATION_CLASSES':[
+        'rest_framework.authentication.BasicAuthentication'
+        ],
 }
 
 CORS_ALLOWED_ORIGINS = [
@@ -139,5 +149,5 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 SESSION_CACHE_ALIAS = 'default'
 
 LOCALE_PATHS = (
-    os.path.join(BASE_DIR, 'locale')
+    os.path.join(BASE_DIR, 'locale'),
     )
